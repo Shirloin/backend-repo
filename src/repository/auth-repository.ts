@@ -18,4 +18,8 @@ export default class AuthRepository {
             await auth.updateUser(id, authData);
         }
     }
+
+    async deleteUser(id: string) {
+        await auth.deleteUser(id)
+    }
 }

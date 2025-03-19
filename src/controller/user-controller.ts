@@ -17,9 +17,22 @@ export default class UserController {
     public getAllUsers = async (req: Request, res: Response) => {
         try {
             const users = await this.userRepository.getAllUsers();
-            res.status(200).json({ message: "Users fetched successfully", users });
+            res.status(200).json({ message: "Users fetched successfully", data: users });
         } catch (error) {
-            res.status(500).json({ message: "Fail to fetch user", error });
+            res.status(500).json({ message: "Fail to fetch user", data: error });
+        }
+    }
+
+    public createUser = async (req: Request, res: Response) => {
+        try {
+
+            const { email, password, name } = req.body
+
+            const userRecord = await this.authRepository.createUser(email, password, name)
+            const newUser = await this.userRepository.createUser(userRecord.uid, email, name)
+            res.status(201).json({ message: "User created successfully", newUser })
+        } catch (error) {
+            res.status(500).json({ message: "Error creating user", error })
         }
     }
 
@@ -46,10 +59,29 @@ export default class UserController {
                 displayName: userData.name,
             });
 
-            res.status(200).json({ message: "User updated successfully", user: updatedUser });
+            res.status(200).json({ message: "User updated successfully", data: updatedUser });
         } catch (error) {
             console.log(error)
             res.status(500).json({ message: "Fail to update user", error });
         }
     };
+    public deleteUser = async (req: Request, res: Response) => {
+        try {
+            const { id } = req.params;
+            if (!id) {
+                res.status(400).json({ message: "User ID is required" });
+                return;
+            }
+            const existingUser = await this.userRepository.getUserById(id);
+            if (!existingUser) {
+                res.status(404).json({ message: "User not found" });
+                return;
+            }
+            this.userRepository.deleteUser(id)
+            this.authRepository.deleteUser(id)
+            res.status(200).json({ message: "User deleted successfully" });
+        } catch (error) {
+            res.status(500).json({ message: "Fail to delete user", error });
+        }
+    }
 }

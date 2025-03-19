@@ -38,5 +38,9 @@ export class UserRepository {
         return (await userRef.get()).data() as User;
     }
 
+    async deleteUser(id: string) {
+        await this.collection.doc(id).delete()
+    }
+
 
 }

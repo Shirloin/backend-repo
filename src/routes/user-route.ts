@@ -14,6 +14,8 @@ export default class UserRoute {
 
     private initializeRoutes() {
         this.router.get("/", authMiddleware, this.userController.getAllUsers)
+        this.router.post("/", authMiddleware, this.userController.createUser)
         this.router.put("/:id", authMiddleware, this.userController.updateUser)
+        this.router.delete("/:id", authMiddleware, this.userController.deleteUser)
     }
 }
