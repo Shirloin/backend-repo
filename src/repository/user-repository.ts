@@ -1,11 +1,11 @@
-import { auth, db } from "../config/firebase-config";
+import { db } from "../config/firebase-config";
 import { User } from "../entities/user-model";
-import admin from "firebase-admin"
 
 export class UserRepository {
     private collection = db.collection("USERS")
 
-    async createUser(uid: string, email: string, name: string): Promise<User> {
+    async createUser(uid: string, email: string, name: string = ""): Promise<User> {
+
         const newUser: User = {
             id: uid,
             email,

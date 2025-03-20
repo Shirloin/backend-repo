@@ -26,15 +26,21 @@ class App {
     }
 
     private initializeMiddlewares() {
-        this.app.use(cors({ origin: "*", credentials: true }));
+        this.app.use(cors({
+            origin: ['http://localhost:3000'],
+            methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+            allowedHeaders: ['Content-Type', 'Authorization'],
+            credentials: true
+        }));
+        // this.app.use(cors({ origin: "*", credentials: true }));
         this.app.use(express.json())
 
     }
 
     private initializeRoutes() {
-        this.app.use("/api/auth", new AuthRoute().router)
-        this.app.use("/api/users", new UserRoute().router)
+        this.app.use("/auth", new AuthRoute().router)
+        this.app.use("/users", new UserRoute().router)
     }
 }
-const app = new App()
-app.listen()
+export const app = new App().app
+// app.listen()

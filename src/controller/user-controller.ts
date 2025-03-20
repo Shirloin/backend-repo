@@ -1,7 +1,5 @@
 import { Request, Response } from "express";
-import { auth, db } from "../config/firebase-config";
 import { User } from "../entities/user-model";
-import admin from "firebase-admin"
 import { UserRepository } from "../repository/user-repository";
 import AuthRepository from "../repository/auth-repository";
 
@@ -27,8 +25,10 @@ export default class UserController {
         try {
 
             const { email, password, name } = req.body
-
-            const userRecord = await this.authRepository.createUser(email, password, name)
+            let userRecord = await this.authRepository.getUserByEmail(email)
+            if (!userRecord) {
+                userRecord = await this.authRepository.createUser(email, password, name)
+            }
             const newUser = await this.userRepository.createUser(userRecord.uid, email, name)
             res.status(201).json({ message: "User created successfully", newUser })
         } catch (error) {

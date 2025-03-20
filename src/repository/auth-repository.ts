@@ -1,4 +1,4 @@
-import { UserRecord } from "firebase-admin/lib/auth/user-record";
+import { UserRecord } from "firebase-admin/auth";
 import { auth } from "../config/firebase-config";
 import admin from "firebase-admin";
 
