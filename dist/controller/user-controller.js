@@ -28,14 +28,12 @@ class UserController {
         this.createUser = (req, res) => __awaiter(this, void 0, void 0, function* () {
             try {
                 const { email, password, name } = req.body;
-                let userRecord = yield this.authRepository.getUserByEmail(email);
-                if (!userRecord) {
-                    userRecord = yield this.authRepository.createUser(email, password, name);
-                }
+                const userRecord = yield this.authRepository.createUser(email, password, name);
                 const newUser = yield this.userRepository.createUser(userRecord.uid, email, name);
                 res.status(201).json({ message: "User created successfully", newUser });
             }
             catch (error) {
+                console.log(error);
                 res.status(500).json({ message: "Error creating user", error });
             }
         });

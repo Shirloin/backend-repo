@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
-import { User } from "../entities/user-model";
 import { UserRepository } from "../repository/user-repository";
 import AuthRepository from "../repository/auth-repository";
+import { User } from "shared/user";
 
 export default class UserController {
     private userRepository: UserRepository
@@ -25,13 +25,11 @@ export default class UserController {
         try {
 
             const { email, password, name } = req.body
-            let userRecord = await this.authRepository.getUserByEmail(email)
-            if (!userRecord) {
-                userRecord = await this.authRepository.createUser(email, password, name)
-            }
+            const userRecord = await this.authRepository.createUser(email, password, name)
             const newUser = await this.userRepository.createUser(userRecord.uid, email, name)
             res.status(201).json({ message: "User created successfully", newUser })
         } catch (error) {
+            console.log(error)
             res.status(500).json({ message: "Error creating user", error })
         }
     }

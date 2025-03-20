@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "nodemon src/core/app.ts",
     "build": "tsc && copy package.json dist\\ && copy .env.local dist\\",
-    "start": "node dist/index.js",
+    "start": "firebase emulators:start --only functions,firestore,auth",
     "emulators": "npm run build && firebase emulators:start --only functions,firestore,auth",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -20,7 +20,8 @@
     "firebase": "^11.4.0",
     "firebase-admin": "^13.2.0",
     "firebase-functions": "^6.3.2",
-    "jsonwebtoken": "^9.0.2"
+    "jsonwebtoken": "^9.0.2",
+    "shared": "*"
   },
   "devDependencies": {
     "@types/express": "^5.0.0",

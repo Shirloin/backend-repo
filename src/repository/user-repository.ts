@@ -1,5 +1,5 @@
+import { User } from "shared";
 import { db } from "../config/firebase-config";
-import { User } from "../entities/user-model";
 
 export class UserRepository {
     private collection = db.collection("USERS")

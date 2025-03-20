@@ -1,6 +1,4 @@
 import { Request, Response } from "express";
-import jwt from "jsonwebtoken"
-import { SECRET_KEY } from "../config/env-config";
 import AuthRepository from "../repository/auth-repository";
 import { UserRepository } from "../repository/user-repository";
 import admin from "firebase-admin"
